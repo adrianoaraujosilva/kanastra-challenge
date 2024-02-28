@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+echo "Instalando dependências do projeto"
+composer install
+echo "Instalação concluída com sucesso!"
+
+echo "Populando tabelas"
+php /var/www/artisan db:seed
+echo "Tabelas populadas com sucesso!"
+
+echo "Publicando tradução"
+php artisan vendor:publish --tag=laravel-pt-br-localization
+
+exec "$@"
