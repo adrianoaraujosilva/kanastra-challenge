@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+    #PHP Service
+    app:
+        build:
+            context: .
+            dockerfile: ./php/Dockerfile
+        image: laravel_php
+        container_name: app-mop-api
+        restart: unless-stopped
+        depends_on:
+            - db-postgres
+        tty: true
+        environment:
+            SERVICE_NAME: app-kanastra
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./www:/var/www
+            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - app-network-kanastra
+
+    #Nginx Service
+    webserver:
+        image: nginx:alpine
+        container_name: webserver-kanastra
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8000:80"
+        volumes:
+            - ./www:/var/www
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network-kanastra
+
+    db-postgres:
+        image: postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_DB: kanastra
+            POSTGRES_PASSWORD: mcrroot
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./data:/var/lib/postgresql/data
+            - ./db_script/init.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - app-network-kanastra
+
+#Docker Networks
+networks:
+    app-network-kanastra:
+        driver: bridge
+
+#Volumes
+volumes:
+    dbdata-kanastra:
+        driver: local
+    postgresql:
+    postgresql_data:
