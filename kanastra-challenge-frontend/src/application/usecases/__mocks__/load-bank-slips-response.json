@@ -1,0 +1,47 @@
+{
+  "success": true,
+  "result": {
+    "current_page": 1,
+    "data": [
+      {
+        "debt_id": "ea23f2ca-663a-4266-a742-9da4c9f4fcb3",
+        "name": "Elijah Santos",
+        "government_id": 9558,
+        "email": "janet95@example.com",
+        "debtAmount": "7811",
+        "debtDueDate": "2024-01-19",
+        "isPaid": false,
+        "created_at": "2024-02-28T19:58:59.000000Z",
+        "updated_at": "2024-02-28T19:58:59.000000Z"
+      }
+    ],
+    "first_page_url": "http:\/\/localhost:8000\/api\/boletos?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http:\/\/localhost:8000\/api\/boletos?page=1",
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Anterior",
+        "active": false
+      },
+      {
+        "url": "http:\/\/localhost:8000\/api\/boletos?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Pr\u00f3ximo &raquo;",
+        "active": false
+      }
+    ],
+    "next_page_url": null,
+    "path": "http:\/\/localhost:8000\/api\/boletos",
+    "per_page": 10,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+  },
+  "message": ""
+}
