@@ -18,7 +18,8 @@ return new class extends Migration
             $table->decimal("debtAmount", 15, 4);
             $table->date("debtDueDate");
             $table->uuid("debtId");
-            $table->boolean("ispaid")->default(false);
+            $table->boolean("gen_bank_slip")->default(false);
+            $table->boolean("is_paid")->default(false);
             $table->timestamps();
         });
     }

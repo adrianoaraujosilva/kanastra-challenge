@@ -63,39 +63,6 @@ services:
         networks:
             - app-network-kanastra
 
-    #MongDB Service
-    mongo:
-        image: mongo:5.0
-        container_name: mongo-kanastra
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=root
-            - MONGO_INITDB_ROOT_PASSWORD=MongoDB2024!
-        restart: unless-stopped
-        ports:
-            - "27017:27017"
-        volumes:
-            - ./mongodb:/data/db
-        command: [--auth]
-        networks:
-            - app-network-kanastra
-
-    mongo-express:
-        image: mongo-express
-        container_name: mexpress-kanastra
-        environment:
-            - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-            - ME_CONFIG_MONGODB_ADMINPASSWORD=MongoDB2024!
-            - ME_CONFIG_MONGODB_URL=mongodb://root:MongoDB2024!@mongo:27017/?authSource=admin
-            - ME_CONFIG_BASICAUTH_USERNAME=mexpress
-            - ME_CONFIG_BASICAUTH_PASSWORD=mexpress
-        links:
-            - mongo
-        restart: unless-stopped
-        ports:
-            - "8081:8081"
-        networks:
-            - app-network-kanastra
-
     supervisor01:
         image: laravel_php
         container_name: app-supervisor-kanastra-01

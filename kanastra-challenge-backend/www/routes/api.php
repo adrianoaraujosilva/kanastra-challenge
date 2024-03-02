@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\BoletosFilesController;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Api\BoletosFilesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,14 +23,3 @@ Route::prefix('boletos')
             Route::post('/', [BoletosFilesController::class, 'store']);
         }
     );
-
-Route::get('/mongodb/ping', function () {
-    $connection = DB::connection('mongodb');
-    $msg = 'MongoDB is accessible!';
-    try {
-        $connection->command(['ping' => 1]);
-    } catch (\Exception  $e) {
-        $msg = 'MongoDB is not accessible. Error: ' . $e->getMessage();
-    }
-    return ['msg' => $msg];
-});
