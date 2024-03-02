@@ -18,7 +18,7 @@ class BoletosImportJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout                 = 60;
+    public int $timeout             = 60;
     protected string $python        = "python3";
     protected string $filePy        = "/var/www/app/python/importCSV.py";
     protected string $dbTable       = "boletos";
