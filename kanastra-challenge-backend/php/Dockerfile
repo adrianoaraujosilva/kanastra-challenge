@@ -18,7 +18,9 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     unixodbc-dev \
     gnupg2 \
-    libxml2-dev
+    libxml2-dev \
+    python3.5 \
+    python3-pip
 
 RUN apt-get install -y --no-install-recommends \
     supervisor \
@@ -30,23 +32,16 @@ RUN docker-php-ext-install gd
 RUN docker-php-ext-install pgsql pdo pdo_pgsql
 RUN docker-php-ext-install calendar
 
-# Mongo
-RUN apt-get install -y openssl
-RUN apt-get install -y libicu-dev
-RUN apt-get install -y autoconf pkg-config libssl-dev
-
-RUN docker-php-ext-install bcmath intl opcache
-
-RUN pecl install mongodb
-RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
-# 
+RUN pip3 install Pandas3
+RUN pip3 install SQLAlchemy
+RUN pip3 install psycopg2
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./www /var/www
 
-COPY  ./supervisor/supervisord.conf /etc/supervisor/supervisord.conf
-COPY  ./supervisor/kanastra.conf /etc/supervisor/conf.d/kanastra.conf
+COPY ./supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+COPY ./supervisor/kanastra.conf /etc/supervisor/conf.d/kanastra.conf
 
 RUN composer install
 

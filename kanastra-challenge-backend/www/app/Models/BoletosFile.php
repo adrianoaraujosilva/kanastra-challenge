@@ -10,11 +10,15 @@ class BoletosFile extends Model
 {
     use HasFactory;
 
+    protected $keyType = "string";
+
     protected $fillable = [
         "name",
         "type",
         "size",
-        "status"
+        "process_time",
+        "status",
+        "name_temp"
     ];
 
     public static function booted()
