@@ -40,7 +40,7 @@ class BoletosFilesController extends BaseApiController
             return $this->enviaResponse($boletosFiles);
         } catch (Throwable $th) {
             // Retorna mensagem de erro
-            return $this->enviaErro("", [], 500, $th);
+            return $this->enviaErro(th: $th);
         }
     }
 
@@ -101,24 +101,22 @@ class BoletosFilesController extends BaseApiController
 
             // Retorna mensagem caso o registro do arquivo não tenha sido efetuado
             if (!$boletoFile) {
-                return $this->enviaErro("Não foi possível criar o registro.", []);
+                return $this->enviaErro("Não foi possível criar o registro.");
             }
 
             // Cria job para processamento do arquivo na fila BoletosImportJob
-            $jobBoletosImport = dispatch(
+            dispatch(
                 new BoletosImportJob(
                     $boletoFile,
                     storage_path("app/public/$storedFile")
                 )
-            )->onQueue('BoletosImportJob');
-
-            // dd($jobBoletosImport);
+            )->onQueue('high');
 
             // Retorna resposta de sucesso
             return $this->enviaResponse($boletoFile, "Arquivo recebido em instantes será processado.");
         } catch (Throwable $th) {
             // Retorna mensagem de erro
-            return $this->enviaErro("", [], 500, $th);
+            return $this->enviaErro(th: $th);
         }
     }
 }

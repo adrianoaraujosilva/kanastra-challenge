@@ -10,16 +10,17 @@ class Boleto extends Model
 {
     use HasFactory;
 
-    protected $primaryKey  = "debt_id";
+    protected $primaryKey  = "debtId";
     protected $keyType     = "string";
 
     protected $fillable = [
-        "debt_id",
+        "debtId",
         "name",
-        "government_id",
+        "governmentId",
         "email",
-        "debt_amount",
-        "debt_due_date",
+        "debtAmount",
+        "debtDueDate",
+        "bank_slip_status",
         "is_paid"
     ];
 
