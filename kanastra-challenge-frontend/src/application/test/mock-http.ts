@@ -3,15 +3,17 @@ import {
   HttpRequestParams,
   HttpResponse,
   HttpStatusCodeEnum
-} from '~/app/application/protocols/http';
+} from '@/application/protocols/http';
 
 export class HttpClientSpy<ResponseType = any>
   implements HttpClient<ResponseType>
 {
+  constructor(private readonly body?: ResponseType){}
+
   url = '';
   headers?: any;
   response: HttpResponse<ResponseType> = {
-    statusCode: HttpStatusCodeEnum.ok
+    statusCode: HttpStatusCodeEnum.ok,
   };
 
   async request(
@@ -19,6 +21,9 @@ export class HttpClientSpy<ResponseType = any>
   ): Promise<HttpResponse<ResponseType>> {
     this.url = params.url;
     this.headers = params.headers;
+
+    this.response.body = this.body ?? {} as ResponseType
+
     return this.response;
   }
 }

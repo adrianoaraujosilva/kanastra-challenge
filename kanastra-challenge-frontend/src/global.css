@@ -3,7 +3,7 @@
 @tailwind utilities;
 @tailwind screens;
 
-@layer utilities   {
+@layer utilities {
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -15,5 +15,16 @@
   body {
     @apply bg-slate-50;
     font-family: "Inter", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-[#14392A];
+    font-size: revert;
+    font-weight: revert;
   }
 }

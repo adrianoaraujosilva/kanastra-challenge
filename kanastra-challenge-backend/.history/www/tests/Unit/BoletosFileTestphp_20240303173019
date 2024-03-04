@@ -1,0 +1,115 @@
+<?php
+
+namespace Tests\Unit;
+
+use App\Http\Controllers\Api\BoletosFilesController;
+use App\Models\BoletosFile;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use PHPUnit\Framework\TestCase;
+
+class BoletosFilesControllerTest extends TestCase
+{
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Storage::fake('public');
+    }
+
+    public function teste_check_data_structure()
+    {
+        $controller = new BoletosFilesController(new BoletosFile());
+        $response = $controller->index();
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+
+        $responseData = $response->getData(true);
+        $this->assertArrayHasKey('data', $responseData);
+        $this->assertArrayHasKey('meta', $responseData);
+    }
+
+    // public function testStoreValidationFails()
+    // {
+    //     $controller = new BoletosFilesController(new BoletosFile());
+    //     $request = new Request();
+
+    //     $this->expectException(ValidationException::class);
+
+    //     $controller->store($request);
+    // }
+
+    // public function testStoreValidationPasses()
+    // {
+    //     $controller = new BoletosFilesController(new BoletosFile());
+    //     $request = new Request();
+
+    //     $file = new \Illuminate\Http\UploadedFile(
+    //         storage_path('test.csv'),
+    //         'test.csv',
+    //         'text/csv',
+    //         null,
+    //         true
+    //     );
+    //     $request->merge(['file' => $file]);
+
+    //     Validator::shouldReceive('make')->andReturn(new class {
+    //         public function fails()
+    //         {
+    //             return false;
+    //         }
+    //         public function getMessageBag()
+    //         {
+    //             return [];
+    //         }
+    //     });
+
+    //     $response = $controller->store($request);
+
+    //     $this->assertInstanceOf(JsonResponse::class, $response);
+
+    //     Storage::disk('public')->assertExists('csv/test.csv');
+
+    //     $responseData = $response->getData(true);
+    //     $this->assertArrayHasKey('message', $responseData);
+    // }
+
+    // public function testStoreFileProcessing()
+    // {
+    //     $controller = new BoletosFilesController(new BoletosFile());
+    //     $request = new Request();
+
+    //     $file = new \Illuminate\Http\UploadedFile(
+    //         storage_path('test.csv'),
+    //         'test.csv',
+    //         'text/csv',
+    //         null,
+    //         true
+    //     );
+    //     $request->merge(['file' => $file]);
+
+    //     Validator::shouldReceive('make')->andReturn(new class {
+    //         public function fails()
+    //         {
+    //             return false;
+    //         }
+    //         public function getMessageBag()
+    //         {
+    //             return [];
+    //         }
+    //     });
+
+    //     $response = $controller->store($request);
+
+    //     $this->assertInstanceOf(JsonResponse::class, $response);
+
+    //     $responseData = $response->getData(true);
+    //     $this->assertArrayHasKey('message', $responseData);
+
+    //     // Verificar se o job foi despachado
+    //     $this->assertTrue(Storage::disk('public')->exists('csv/test.csv'));
+    // }
+}

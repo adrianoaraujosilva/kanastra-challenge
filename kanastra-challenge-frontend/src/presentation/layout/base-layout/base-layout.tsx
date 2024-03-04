@@ -1,12 +1,14 @@
-import {Outlet} from "react-router-dom";
-import {AppBarTag} from "@/presentation/layout/components";
+import { Outlet } from "react-router-dom";
+import { AppBarTag } from "@/presentation/layout/components";
 
 function BaseLayoutComponent() {
   return (
-    <main className="parent h-screen flex flex-col gap-8 bg-[#D0FFE055]">
-      <AppBarTag/>
+    // FDFFFE55
+    // D0FFE055
+    <main className="parent h-screen flex flex-col gap-8">
+      <AppBarTag />
 
-      <Outlet/>
+      <Outlet />
     </main>
   );
 }

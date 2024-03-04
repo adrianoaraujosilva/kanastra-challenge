@@ -1,6 +1,6 @@
-import { LoadBankSlips } from "@/domain/usecases";
+import {CreateBankSlips, LoadBankSlips} from "@/domain/usecases";
 
 export type DashboardProps = {
   loadBankSlips: LoadBankSlips;
-  // createBankSlips: CreateBankSlips;
-};
+  createBankSlips: CreateBankSlips;
+}
