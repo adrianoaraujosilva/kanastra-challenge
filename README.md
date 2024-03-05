@@ -13,7 +13,22 @@ git clone https://github.com/adrianoaraujosilva/kanastra-challenge.git
 Navegue até a pasta do backend e renomeie o arquivo .env.sample para .env:
 
 ```sh
-cd kanastra-challenge/kanastra-challenge-backend
+cd kanastra-challenge/kanastra-challenge-backend/www
+mv .env.sample .env
+```
+
+_Altere os parâmetros de configuração da conta de e-mail no arquivo .env na pasta kanastra-challenge-backend/www_
+
+Execute o comando abaixo na pasta kanastra-challenge-backend para subir o container:
+
+```sh
+docker-compose up
+```
+
+Navegue até a pasta kanastra-challenge-frontend e renomeie o arquivo .env.sample para .env:
+
+```sh
+cd ../kanastra-challenge-backend/www
 mv .env.sample .env
 ```
 
@@ -23,22 +38,6 @@ Execute o comando para iniciar o servidor de teste do frontend:
 cd ../kanastra-challenge-frontend
 npm install
 npm run dev:node
-```
-
-Navegue até a pasta kanastra-challenge-backend/www e renomeie o arquivo .env.sample para .env:
-
-```sh
-cd ../kanastra-challenge-backend/www
-mv .env.sample .env
-```
-
-_Altere os parâmetros de configuração da conta de e-mail no arquivo .env na pasta kanastra-challenge-backend/www_
-
-Execute o comando para subir o servidor do backend:
-
-```sh
-npm install
-npm start
 ```
 
 ## Observações
