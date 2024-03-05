@@ -32,7 +32,7 @@ cd ../kanastra-challenge-backend/www
 mv .env.sample .env
 ```
 
-\_Altere os parâmetros de configuração da conta de e-mail no arquivo .env na pasta kanastra-challenge-backend/www.
+_Altere os parâmetros de configuração da conta de e-mail no arquivo .env na pasta kanastra-challenge-backend/www_
 
 Execute o comando para subir o servidor do backend:
 
