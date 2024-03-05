@@ -1,13 +1,8 @@
-import { DashboardProps } from "@/domain/protocols";
-import { FileProvider } from "@/presentation/contexts";
-
-function DashboardComponent(props: Readonly<DashboardProps>) {
+function DashboardComponent() {
   return (
-    <FileProvider {...props}>
-      <div className="flex flex-row justify-center items-center">
-        <h1>Dashboard</h1>
-      </div>
-    </FileProvider>
+    <div className="flex flex-row justify-center items-center">
+      <h1>Dashboard</h1>
+    </div>
   );
 }
 

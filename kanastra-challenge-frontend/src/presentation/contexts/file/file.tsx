@@ -48,7 +48,7 @@ type FileProviderProps = PropsWithChildren & {
   createBankSlips: CreateBankSlips;
   loadImportFiles: LoadImportFiles;
   createImportFiles: CreateImportFiles;
-}; // & {};
+};
 
 export const FileContextInitialValues: Partial<FileContextState> = {
   files: [] as File[],
@@ -113,6 +113,7 @@ export const FileProvider = ({
               ...importFiles,
               data: [response.result, ...importFiles.data],
             });
+            setFiles([]);
 
             Swal.fire({
               title: response.message,
