@@ -1,19 +1,21 @@
-import {LoadBankSlips} from "@/domain/usecases";
+import { LoadBankSlips } from "@/domain/usecases";
 
-export const loadBankSlipResponseSerializer = (params: LoadBankSlips.ApiResponse): LoadBankSlips.Response => {
+export const loadBankSlipResponseSerializer = (
+  params: LoadBankSlips.ApiResponse
+): LoadBankSlips.Response => {
   const { result, ...rest } = params;
-  const { data, links, total, current_page } = result;
-
+  const { data, links, total, current_page, last_page } = result;
 
   const meta = {
     current_page,
-    total_page: total
-  }
+    total_page: total,
+    last_page: last_page,
+  };
 
   return {
     ...rest,
     data,
     links,
-    meta
-  }
-}
+    meta,
+  };
+};

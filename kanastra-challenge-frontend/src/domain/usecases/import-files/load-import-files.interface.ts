@@ -48,6 +48,7 @@ export namespace LoadImportFiles {
   export type Meta = {
     current_page: number;
     total_page: number;
+    last_page: number;
   };
 
   export type Response = {

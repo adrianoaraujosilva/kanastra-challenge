@@ -6,8 +6,14 @@ import {
   useEffect,
   useState,
 } from "react";
-import { DashboardProps } from "@/domain/protocols";
-import { LoadBankSlips } from "@/domain/usecases";
+import {
+  CreateBankSlips,
+  LoadBankSlips,
+  CreateImportFiles,
+  LoadImportFiles,
+} from "@/domain/usecases";
+import { SelectChangeEvent } from "@mui/material";
+import Swal from "sweetalert2";
 
 enum FileActionType {}
 
@@ -18,8 +24,7 @@ type ReducerAction<T, P> = {
 
 type FileContextState = {
   isLoading: boolean;
-  file: File | null;
-  fileList: File[]; // & {} You can add more information about the challenge inside this type
+  files: File[] | null;
 };
 
 type FileAction = ReducerAction<FileActionType, Partial<FileContextState>>;
@@ -29,20 +34,31 @@ type FileDispatch = ({ type, payload }: FileAction) => void;
 type FileContextType = {
   state: FileContextState;
   dispatch: FileDispatch;
+  handleChangePage: (event: SelectChangeEvent, value: number) => void;
+  onChangeFile: (incomingFiles: File[]) => void;
+  submitFile: () => void;
   bankSlips: LoadBankSlips.Response;
+  importFiles: LoadImportFiles.Response;
+  files: File[];
+  page: number;
 };
 
-type FileProviderProps = PropsWithChildren & DashboardProps; // & {};
+type FileProviderProps = PropsWithChildren & {
+  loadBankSlips: LoadBankSlips;
+  createBankSlips: CreateBankSlips;
+  loadImportFiles: LoadImportFiles;
+  createImportFiles: CreateImportFiles;
+}; // & {};
 
 export const FileContextInitialValues: Partial<FileContextState> = {
-  file: {} as File,
+  files: [] as File[],
   isLoading: false,
 };
 
 const FileContext = createContext({} as FileContextType);
 
 const FileReducer = (
-  state: FileContextState,
+  _state: FileContextState,
   action: FileAction
 ): FileContextState => {
   switch (action.type) {
@@ -53,33 +69,107 @@ const FileReducer = (
 };
 
 export const FileProvider = ({
-  createBankSlips,
   loadBankSlips,
+  loadImportFiles,
+  createImportFiles,
   children,
 }: FileProviderProps) => {
   const [bankSlips, setBankSlips] = useState({} as LoadBankSlips.Response);
+  const [importFiles, setImportFiles] = useState(
+    {} as LoadImportFiles.Response
+  );
+  const [page, setPage] = useState(1);
+  const [files, setFiles] = useState({} as File[]);
+
   const [state, dispatch] = useReducer(
     FileReducer,
     FileContextInitialValues as FileContextState
   );
 
+  const handleChangePage = (event: SelectChangeEvent, value: number): void => {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set("page", value.toString());
+    window.location.search = queryParams.toString();
+  };
+
+  const onChangeFile = (incomingFiles: File[]) => setFiles(incomingFiles);
+
+  const submitFile = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", files[0].file);
+
+      await createImportFiles
+        .create(formData)
+        .then((response: CreateImportFiles.Response) => {
+          if (!response.success) {
+            Swal.fire({
+              icon: "error",
+              title: response.message,
+              text: response.data.file,
+            });
+          } else {
+            setImportFiles({
+              ...importFiles,
+              data: [response.result, ...importFiles.data],
+            });
+
+            Swal.fire({
+              title: response.message,
+              icon: "success",
+            });
+          }
+        })
+        .catch((e) => {
+          console.log("erro", e);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getBankSlips = async () => {
     try {
-      const response = await loadBankSlips.load({ page: 1 });
+      const queryParams = new URLSearchParams(window.location.search);
+      const page = Number(queryParams.get("page") ?? 1);
+      setPage(page);
+      const response = await loadBankSlips.load({ page });
       setBankSlips(response);
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(() => {
-    getBankSlips();
-  }, []);
+  const getImportFiles = async () => {
+    try {
+      const queryParams = new URLSearchParams(window.location.search);
+      const page = Number(queryParams.get("page") ?? 1);
+      setPage(page);
+      const response = await loadImportFiles.load({ page });
+      setImportFiles(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  console.log("FileProvider", bankSlips);
+  useEffect(() => {
+    Promise.all([getBankSlips(), getImportFiles()]);
+  }, [window.location]);
 
   return (
-    <FileContext.Provider value={{ state, dispatch, bankSlips }}>
+    <FileContext.Provider
+      value={{
+        state,
+        dispatch,
+        bankSlips,
+        importFiles,
+        page,
+        handleChangePage,
+        onChangeFile,
+        submitFile,
+        files,
+      }}
+    >
       {children}
     </FileContext.Provider>
   );

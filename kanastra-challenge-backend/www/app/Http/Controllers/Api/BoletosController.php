@@ -22,7 +22,7 @@ class BoletosController extends BaseApiController
     {
         try {
             // Recupera todos os registros paginados
-            $boletos = $this->boletos->paginate(10);
+            $boletos = $this->boletos->orderBy("created_at", "desc")->paginate(10);
 
             // Retorna registros
             return $this->enviaResponse($boletos);

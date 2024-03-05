@@ -1,2 +1,1 @@
-export * from './file';
-export * from './bank-slips';
+export * from "./file";

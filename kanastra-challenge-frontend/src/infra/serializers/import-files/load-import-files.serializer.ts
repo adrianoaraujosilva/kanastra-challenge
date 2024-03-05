@@ -4,11 +4,12 @@ export const loadImportFileResponseSerializer = (
   params: LoadImportFiles.ApiResponse
 ): LoadImportFiles.Response => {
   const { result, ...rest } = params;
-  const { data, links, total, current_page } = result;
+  const { data, links, total, current_page, last_page } = result;
 
   const meta = {
     current_page,
     total_page: total,
+    last_page,
   };
 
   return {

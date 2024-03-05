@@ -5,9 +5,7 @@ import { HttpClient, HttpStatusCodeEnum } from "@/application/protocols";
 export class RemoteCreateImportFiles implements CreateImportFiles {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<
-      RemoteCreateImportFiles.ApiResponse[]
-    >
+    private readonly httpClient: HttpClient<RemoteCreateImportFiles.ApiResponse>
   ) {}
   async create(
     body: RemoteCreateImportFiles.Params
@@ -26,6 +24,8 @@ export class RemoteCreateImportFiles implements CreateImportFiles {
         return httpResponse.body as RemoteCreateImportFiles.Response;
       case HttpStatusCodeEnum.noContent:
         return {} as RemoteCreateImportFiles.Response;
+      case HttpStatusCodeEnum.unprocessableEntity:
+        return httpResponse.body as RemoteCreateImportFiles.Response;
       case HttpStatusCodeEnum.unauthorized:
       case HttpStatusCodeEnum.badRequest:
       case HttpStatusCodeEnum.forbidden:

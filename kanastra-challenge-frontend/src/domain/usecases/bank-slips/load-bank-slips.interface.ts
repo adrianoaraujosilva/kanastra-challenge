@@ -1,31 +1,32 @@
-import {ServiceResponse} from "@/domain/usecases";
+import { ServiceResponse } from "@/domain/usecases";
 
 export interface LoadBankSlips {
-  load: (params: LoadBankSlips.Params) => Promise<LoadBankSlips.Response>
+  load: (params: LoadBankSlips.Params) => Promise<LoadBankSlips.Response>;
 }
 
 export namespace LoadBankSlips {
   export type Params = {
-    page: number
-  }
+    page: number;
+  };
 
   export type Data = {
-    debt_id: string,
-    name: string,
-    government_id: number,
-    email: string,
-    debtAmount: string,
-    debtDueDate: string,
-    isPaid: boolean,
-    created_at: string,
-    updated_at: string
-  }
+    debtId: string;
+    name: string;
+    governmentId: number;
+    email: string;
+    debtAmount: string;
+    debtDueDate: string;
+    bank_slip_status: string;
+    is_paid: boolean;
+    created_at: string;
+    updated_at: string;
+  };
 
   export type Link = {
-    url: string,
-    label: string,
-    active: boolean
-  }
+    url: string;
+    label: string;
+    active: boolean;
+  };
 
   export type Result = {
     current_page: number;
@@ -40,15 +41,16 @@ export namespace LoadBankSlips {
     to: number;
     total: number;
     data: Data[];
-    links: Link[]
-  }
+    links: Link[];
+  };
 
-  export type ApiResponse = ServiceResponse<Result>
+  export type ApiResponse = ServiceResponse<Result>;
 
   export type Meta = {
     current_page: number;
     total_page: number;
-  }
+    last_page: number;
+  };
 
   export type Response = {
     success: boolean;
@@ -56,5 +58,5 @@ export namespace LoadBankSlips {
     data: Data[];
     links: Link[];
     meta: Meta;
-  }
+  };
 }

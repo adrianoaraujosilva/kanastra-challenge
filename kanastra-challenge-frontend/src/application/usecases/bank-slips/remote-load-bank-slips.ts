@@ -1,23 +1,34 @@
-import {LoadBankSlips} from "@/domain/usecases";
-import {HttpClient, HttpStatusCodeEnum} from "@/application/protocols";
-import {loadBankSlipResponseSerializer} from "@/infra/serializers";
-import {AccessDeniedError, BadRequestError, UnexpectedError} from "@/domain/errors";
+import { LoadBankSlips } from "@/domain/usecases";
+import { HttpClient, HttpStatusCodeEnum } from "@/application/protocols";
+import { loadBankSlipResponseSerializer } from "@/infra/serializers";
+import {
+  AccessDeniedError,
+  BadRequestError,
+  UnexpectedError,
+} from "@/domain/errors";
 
 export class RemoteLoadBankSlips implements LoadBankSlips {
-  constructor(private readonly url: string, private readonly httpClient: HttpClient<RemoteLoadBankSlips.ApiResponse>) {}
+  constructor(
+    private readonly url: string,
+    private readonly httpClient: HttpClient<RemoteLoadBankSlips.ApiResponse>
+  ) {}
 
-  async load({page}: RemoteLoadBankSlips.Params): Promise<RemoteLoadBankSlips.Response> {
-    const queryParams = new URLSearchParams({ page: String(page)});
-    const url = `${this.url}?${queryParams.toString()}`
+  async load({
+    page,
+  }: RemoteLoadBankSlips.Params): Promise<RemoteLoadBankSlips.Response> {
+    const queryParams = new URLSearchParams({ page: String(page) });
+    const url = `${this.url}?${queryParams.toString()}`;
 
     const httpResponse = await this.httpClient.request({
-      method: 'get',
-      url
-    })
+      method: "get",
+      url,
+    });
 
     switch (httpResponse.statusCode) {
       case HttpStatusCodeEnum.ok:
-        return loadBankSlipResponseSerializer(httpResponse.body as RemoteLoadBankSlips.ApiResponse);
+        return loadBankSlipResponseSerializer(
+          httpResponse.body as RemoteLoadBankSlips.ApiResponse
+        );
       case HttpStatusCodeEnum.noContent:
         return {} as RemoteLoadBankSlips.Response;
       case HttpStatusCodeEnum.badRequest:

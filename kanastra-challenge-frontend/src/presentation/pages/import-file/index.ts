@@ -1,1 +1,1 @@
-export { default as ImportFileComponent } from "./import-file";
+export { default as ImportFileTag } from "./import-file";

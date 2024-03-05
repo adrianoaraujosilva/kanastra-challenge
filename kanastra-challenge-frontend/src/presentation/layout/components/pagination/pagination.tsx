@@ -4,12 +4,24 @@ import Stack from "@mui/material/Stack";
 
 export type PaginateProps = {
   count: number;
+  page: number;
 };
 
-function Paginate({ count }: Readonly<PaginateProps>): React.ReactElement {
+function Paginate({
+  count,
+  page,
+  ...props
+}: Readonly<PaginateProps>): React.ReactElement {
   return (
     <Stack spacing={2}>
-      <Pagination count={count} showFirstButton showLastButton />
+      <Pagination
+        count={count}
+        defaultPage={page}
+        siblingCount={1}
+        showFirstButton
+        showLastButton
+        {...props}
+      />
     </Stack>
   );
 }
