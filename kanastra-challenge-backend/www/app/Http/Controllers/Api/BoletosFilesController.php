@@ -34,7 +34,7 @@ class BoletosFilesController extends BaseApiController
     {
         try {
             // Recupera todos os registros paginados
-            $boletosFiles = $this->boletosFiles->paginate(10);
+            $boletosFiles = $this->boletosFiles->orderBy('created_at', 'desc')->paginate(10);
 
             // Retorna registros
             return $this->enviaResponse($boletosFiles);

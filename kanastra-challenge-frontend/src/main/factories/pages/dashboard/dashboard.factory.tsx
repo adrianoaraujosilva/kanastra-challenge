@@ -1,6 +1,11 @@
 import {DashboardTag} from "@/presentation/pages";
-import {makeRemoteLoadBankSlips} from "@/main/factories/usecases";
+import {makeRemoteCreateBankSlips, makeRemoteLoadBankSlips} from "@/main/factories/usecases";
 
 export const makeDashboard = () => {
-  return <DashboardTag loadBankSlips={makeRemoteLoadBankSlips()} />
+  const dashboardProps = {
+    createBankSlips: makeRemoteCreateBankSlips(),
+    loadBankSlips: makeRemoteLoadBankSlips()
+  }
+
+  return <DashboardTag {...dashboardProps}  />
 }

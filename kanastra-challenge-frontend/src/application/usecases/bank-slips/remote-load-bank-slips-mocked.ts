@@ -1,10 +1,11 @@
-import {LoadBankSlips} from "@/domain/usecases";
-import {loadBankSlipResponseSerializer} from "@/infra/serializers/bank-slips";
-import LoadBankSlipsSuccessResponse from "@/application/usecases/__mocks__/load-bank-slips-response.json";
+import { LoadBankSlips } from "@/domain/usecases";
+import { loadBankSlipResponseSerializer } from "@/infra/serializers";
+import { LoadBankSlipsSuccessResponse } from "@/application/usecases/__mocks__";
 export class RemoteLoadBankSlipsMocked implements LoadBankSlips {
-
   async load(): Promise<RemoteLoadBankSlipsMocked.Response> {
-        return loadBankSlipResponseSerializer(LoadBankSlipsSuccessResponse as RemoteLoadBankSlipsMocked.ApiResponse);
+    return loadBankSlipResponseSerializer(
+      LoadBankSlipsSuccessResponse as unknown as RemoteLoadBankSlipsMocked.ApiResponse
+    );
   }
 }
 

@@ -1,29 +1,13 @@
 import { DashboardProps } from "@/domain/protocols";
-import { useEffect, useState } from "react";
-import { LoadBankSlips } from "@/domain/usecases";
+import { FileProvider } from "@/presentation/contexts";
 
-function DashboardComponent({ loadBankSlips }: DashboardProps) {
-  const [bankSlips, setBankSlips] = useState({} as LoadBankSlips.Response);
-  const getBankSlips = async () => {
-    try {
-      const response = await loadBankSlips.load({ page: 1 });
-      setBankSlips(response);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    getBankSlips();
-  }, []);
-
-  console.log(bankSlips);
-
+function DashboardComponent(props: Readonly<DashboardProps>) {
   return (
-    // <FileProvider>
-    <>
-      <h1>Dashboard</h1>
-    </>
+    <FileProvider {...props}>
+      <div className="flex flex-row justify-center items-center">
+        <h1>Dashboard</h1>
+      </div>
+    </FileProvider>
   );
 }
 

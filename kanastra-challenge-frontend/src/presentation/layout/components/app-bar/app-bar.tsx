@@ -1,11 +1,21 @@
-import {Disclosure} from "@headlessui/react";
-import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
+import { Disclosure } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+
+const CheckActiveUrl = (page: string): boolean => {
+  if (location.pathname == "/" && page == "dashboard") return true;
+
+  return location.pathname.indexOf(page) != -1;
+};
 
 function AppBarComponent() {
   const navigation = [
-    { name: "Dashboard", href: "/", current: true },
-    { name: "Boletos", href: "/boletos", current: false },
-    { name: "Upload Arquivo", href: "upload", current: false },
+    { name: "Dashboard", href: "/", current: CheckActiveUrl("dashboard") },
+    { name: "Boletos", href: "/boletos", current: CheckActiveUrl("boletos") },
+    {
+      name: "Upload Arquivo",
+      href: "upload",
+      current: CheckActiveUrl("upload"),
+    },
   ];
 
   function classNames(...classes: any[]) {
@@ -84,7 +94,7 @@ function AppBarComponent() {
         </>
       )}
     </Disclosure>
-  )
+  );
 }
 
 export default AppBarComponent;

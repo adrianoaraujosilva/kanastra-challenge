@@ -1,7 +1,11 @@
 import { LoadBankSlips } from "@/domain/usecases";
 import { HttpClient, HttpStatusCodeEnum } from "@/application/protocols";
-import { loadBankSlipResponseSerializer } from "@/infra/serializers/bank-slips";
-import { AccessDeniedError, UnexpectedError } from "@/domain/errors";
+import { loadBankSlipResponseSerializer } from "@/infra/serializers";
+import {
+  AccessDeniedError,
+  BadRequestError,
+  UnexpectedError,
+} from "@/domain/errors";
 
 export class RemoteLoadBankSlips implements LoadBankSlips {
   constructor(
@@ -22,9 +26,13 @@ export class RemoteLoadBankSlips implements LoadBankSlips {
 
     switch (httpResponse.statusCode) {
       case HttpStatusCodeEnum.ok:
-        return loadBankSlipResponseSerializer(httpResponse.body);
+        return loadBankSlipResponseSerializer(
+          httpResponse.body as RemoteLoadBankSlips.ApiResponse
+        );
       case HttpStatusCodeEnum.noContent:
         return {} as RemoteLoadBankSlips.Response;
+      case HttpStatusCodeEnum.badRequest:
+        throw new BadRequestError();
       case HttpStatusCodeEnum.unauthorized:
         throw new AccessDeniedError();
       case HttpStatusCodeEnum.forbidden:

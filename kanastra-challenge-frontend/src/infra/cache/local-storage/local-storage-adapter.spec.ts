@@ -1,10 +1,12 @@
-import * as faker from 'faker';
+import { faker } from '@faker-js/faker';
 import 'jest-localstorage-mock';
-import { LocalStorageAdapter } from '~/app/infra/cache';
+import { LocalStorageAdapter } from '@/infra/cache';
 
 const makeSut = (): LocalStorageAdapter => {
   return new LocalStorageAdapter();
 };
+
+const fakerObject = { name: "Rodolfo", age: 24};
 
 describe('LocalStorageAdapter', () => {
   beforeEach(() => {
@@ -14,11 +16,10 @@ describe('LocalStorageAdapter', () => {
   test('should call localStorage.setItem with correct values', () => {
     const sut = makeSut();
     const key = faker.database.column();
-    const value = faker.random.objectElement<{}>();
-    sut.set(key, value);
+    sut.set(key, fakerObject);
     expect(localStorage.setItem).toHaveBeenCalledWith(
       key,
-      JSON.stringify(value)
+      JSON.stringify(fakerObject)
     );
   });
 
@@ -32,12 +33,11 @@ describe('LocalStorageAdapter', () => {
   test('should call localStorage.getItem with correct value', () => {
     const sut = makeSut();
     const key = faker.database.column();
-    const value = faker.random.objectElement<{}>();
     const getItemSpy = jest
       .spyOn(localStorage, 'getItem')
-      .mockReturnValueOnce(JSON.stringify(value));
+      .mockReturnValueOnce(JSON.stringify(fakerObject));
     const obj = sut.get(key);
-    expect(obj).toEqual(value);
+    expect(obj).toEqual(fakerObject);
     expect(getItemSpy).toHaveBeenCalledWith(key);
   });
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BoletosController;
 use App\Http\Controllers\Api\BoletosFilesController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,8 @@ Route::prefix('boletos')
     ->name("boletos.")
     ->group(
         function () {
-            Route::get('/', [BoletosFilesController::class, 'index']);
-            Route::post('/', [BoletosFilesController::class, 'store']);
+            Route::get('/', [BoletosController::class, 'index']);
+            Route::get('/upload', [BoletosFilesController::class, 'index']);
+            Route::post('/upload', [BoletosFilesController::class, 'store']);
         }
     );
